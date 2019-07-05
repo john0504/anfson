@@ -1,0 +1,182 @@
+---
+familyName: fancoil-dc
+familyMembers:
+- FANCOIL.*
+controlLayout:
+  primary:
+  - POWER_AND_MODE
+  secondary:
+  - FAN_SPEED
+  - TEMP
+  - ROOM_TEMP
+  - SLEEP_MODE
+  - AIR_CLEAR
+  - TIMER
+  - EVA_TEMP
+  - ROOM_FAN_SPEED
+scheduleLayout:
+  primary:
+  - MODE
+  - TEMP
+  - FAN_SPEED
+  - TIMER
+  - SLEEP_MODE
+  - AIR_CLEAR
+deviceId: 1
+components:
+  POWER_AND_MODE:
+    type: button-group-with-toggle
+    title: ''
+    models:
+    - key: H01
+      values:
+      - value: 0
+        text: INFORMATION_MODEL.COOL
+      - value: 1
+        text: INFORMATION_MODEL.DEHUMIDIFIER
+      - value: 2
+        text: INFORMATION_MODEL.FAN
+      - value: 3
+        text: INFORMATION_MODEL.AUTO
+      - value: 4
+        text: INFORMATION_MODEL.HEAT
+      disable:
+      - conditions:
+        - key: H00
+          op: eq
+          target: 0
+    - key: H00
+      values:
+      - value: 0
+        text: 'INFORMATION_MODEL.OFF'
+      - value: 1
+        text: 'INFORMATION_MODEL.ON'
+  MODE:
+    type: button-group
+    title: INFORMATION_MODEL.AC_MODE
+    models:
+    - key: H01
+      values:
+      - value: 0
+        text: INFORMATION_MODEL.COOL
+      - value: 1
+        text: INFORMATION_MODEL.DEHUMIDIFIER
+      - value: 2
+        text: INFORMATION_MODEL.FAN
+      - value: 3
+        text: INFORMATION_MODEL.AUTO
+      - value: 4
+        text: INFORMATION_MODEL.HEAT
+      disable:
+      - conditions:
+        - key: H00
+          op: eq
+          target: 0
+  FAN_SPEED:
+    type: range
+    title: INFORMATION_MODEL.FAN_SPEED
+    models:
+    - key: H02
+      values:
+        min: 0
+        max: 4
+        step: 1
+        func: text
+      default: 0
+      disable:
+      - conditions:
+        - key: H00
+          op: eq
+          target: 0
+  TEMP:
+    type: range
+    title: INFORMATION_MODEL.TEMPERATURE
+    models:
+    - key: H03
+      values:
+        min: 10
+        max: 40
+        step: 1        
+        func: tempCelsius
+      default: 25
+  ROOM_TEMP:
+    type: text
+    title: INFORMATION_MODEL.ROOM_TEMPERATURE
+    models:
+    - key: H04
+      values:
+        func: tempCelsius
+  SLEEP_MODE:
+    type: toggle
+    title: INFORMATION_MODEL.SLEEP_MODE
+    models:
+    - key: H05
+      values:
+      - value: 0
+        text: 'INFORMATION_MODEL.OFF'
+      - value: 1
+        text: 'INFORMATION_MODEL.ON'
+        icon: ios-moon-outline
+      disable:
+      - conditions:
+        - key: H00
+          op: eq
+          target: 0
+  AIR_CLEAR:
+    type: toggle
+    title: INFORMATION_MODEL.AIR_CLEAR
+    models:
+    - key: H08
+      values:
+      - value: 0
+        text: 'INFORMATION_MODEL.OFF'
+      - value: 1
+        text: 'INFORMATION_MODEL.ON'
+        icon: ios-cloud-outline
+      disable:
+      - conditions:
+        - key: H00
+          op: eq
+          target: 0
+  TIMER:
+    type: range-with-toggle
+    title: INFORMATION_MODEL.TIMER
+    models:
+    - key: H0C
+      values:
+        min: 1
+        max: 8
+        step: 1
+        func: text
+      disable:
+      - conditions:
+        - key: H00
+          op: eq
+          target: 0
+    - key: H0C
+      values:
+      - value: 0
+        text: 'INFORMATION_MODEL.OFF'
+        icon: timer
+      - value: "*"
+        text: ''
+      default: 1
+      disable:
+      - conditions:
+        - key: H00
+          op: eq
+          target: 0
+  EVA_TEMP:
+    type: text
+    title: INFORMATION_MODEL.EVA_TEMP
+    models:
+    - key: H60
+      values:
+        func: text
+  ROOM_FAN_SPEED:
+    type: text
+    title: INFORMATION_MODEL.ROOM_FAN_SPEED
+    models:
+    - key: H61
+      values:
+        func: text
